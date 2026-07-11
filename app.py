@@ -5,21 +5,31 @@ from io import BytesIO
 
 st.title("셔틀버스 수요조사 자동 정리 프로그램")
 
-st.write("수요조사 결과 엑셀과 빈 양식 엑셀을 업로드하세요.")
+st.write("수요조사 결과 파일과 빈 양식 엑셀을 업로드하세요.")
 
-survey_file = st.file_uploader("1. 수요조사 엑셀 파일 업로드", type=['xlsx'])
+# csv 파일도 업로드 가능하도록 수정
+survey_file = st.file_uploader("1. 수요조사 파일 업로드 (엑셀 또는 CSV)", type=['xlsx', 'csv'])
 template_file = st.file_uploader("2. 셔틀 양식 엑셀 파일 업로드", type=['xlsx'])
 
 if survey_file and template_file:
     if st.button("데이터 정리 시작"):
         try:
-            # 1. 수요조사 데이터 읽기
-            survey_df = pd.read_excel(survey_file)
+            # 1. 수요조사 데이터 읽기 (파일 확장자에 따라 다르게 읽기)
+            if survey_file.name.endswith('.csv'):
+                survey_df = pd.read_csv(survey_file)
+            else:
+                survey_df = pd.read_excel(survey_file)
+            
+            # --- [핵심 수정 부분] 날짜에 상관없이 '교번', '출교', '귀교' 단어로 열을 찾습니다 ---
+            id_col = [col for col in survey_df.columns if '교번' in col][0]
+            dep_col = [col for col in survey_df.columns if '출교' in col][0]
+            ret_col = [col for col in survey_df.columns if '귀교' in col][0]
+            
             survey_dict = {}
             for idx, row in survey_df.iterrows():
-                student_id = str(row['교번(*)']).strip()
-                dep = str(row['7. 10.(금) 출교 셔틀(*)']).strip()
-                ret = str(row['7. 12.(일) 귀교 셔틀(*)']).strip()
+                student_id = str(row[id_col]).strip()
+                dep = str(row[dep_col]).strip()
+                ret = str(row[ret_col]).strip()
                 survey_dict[student_id] = (dep, ret)
 
             def map_val(v):
