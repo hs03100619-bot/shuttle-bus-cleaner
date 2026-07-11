@@ -78,9 +78,9 @@ st.markdown("---")
 st.header("💡 프로그램 사용 방법")
 
 st.subheader("1단계: 파일 업로드하기")
-st.write("네이버폼 등에서 내려받은 **수요조사 결과 파일(Excel 또는 CSV)**을 첫 번째 칸에 업로드하고, 작성할 빈 **셔틀 양식 파일**을 두 번째 칸에 업로드합니다.")
+st.write("네이버폼, 구글폼 등에서 내려받은 **수요조사 결과 파일(Excel 또는 CSV)**을 첫 번째 칸에 업로드하고, 작성할 빈 **셔틀 양식 파일**을 두 번째 칸에 업로드합니다.")
 
-img1_path = "화면 캡처 2026-07-11 100318.png"
+img1_path = "화면 캡처 2026-07-11 100349.png"
 if os.path.exists(img1_path):
     st.image(img1_path, caption="[참고] 파일 업로드 및 준비 화면", use_container_width=True)
 else:
@@ -89,7 +89,7 @@ else:
 st.subheader("2단계: 데이터 정리 및 다운로드")
 st.write("**[데이터 정리 시작]** 버튼을 누르면 프로그램이 교번을 기준으로 명단을 매칭하여 탑승 여부('○', 'X')를 입력합니다. 설문에 참여하지 않은 인원은 자동으로 **'답변X'**로 처리됩니다. 작업이 완료되면 **[정리본 엑셀 다운로드]** 버튼을 눌러 결과 파일을 저장합니다.")
 
-img2_path = "화면 캡처 2026-07-11 100349.png"
+img2_path = "화면 캡처 2026-07-11 100318.png"
 if os.path.exists(img2_path):
     st.image(img2_path, caption="[참고] 데이터 정리 완료 및 다운로드 화면", use_container_width=True)
 else:
